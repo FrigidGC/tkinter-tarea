@@ -1,0 +1,42 @@
+#Ventana con las 2 pelotas que rebotan
+import tkinter as tk
+
+#Ventana del grafico
+xspeed1 = yspeed1 = xspeed2 = yspeed2=5
+def GraficoBolas():
+    window= tk.Toplevel()
+    window.geometry("600x600")
+    window.resizable(width=False, height=False)
+    window.title("Bolas rebotando")
+    canva2 = tk.Canvas(window, bg="#87CEEB", width=600, height=600)
+    canva2.pack()
+    
+#Las bolas
+    Ball = canva2.create_oval(400, 50, 450, 100, fill="yellow")
+    Ball2 = canva2.create_oval(50, 50, 100, 100, fill="red")
+    
+#Movimiento de las bolas
+    def moveball():
+        global xspeed1, yspeed1, xspeed2, yspeed2
+        canva2.move(Ball,xspeed1,yspeed1)
+        (left1, top1, right1, bottom1) = canva2.coords(Ball)
+        if left1 <= 0 or right1 >= 600:
+            xspeed1 = -xspeed1
+        if  top1 <= 0 or bottom1 >= 600:
+            yspeed1 = -yspeed1
+
+        canva2.move(Ball2,xspeed2,yspeed2)
+        (left2, top2, right2, bottom2) = canva2.coords(Ball2)
+        if left2 <= 0 or right2 >= 600:
+            xspeed2 = -xspeed2
+        if  top2 <= 0 or bottom2 >= 600:
+            yspeed2 = -yspeed2
+
+        canva2.after(30, moveball)
+
+    canva2.after(30, moveball)
+    window.mainloop()
+
+
+    #quitar al terminar
+print(GraficoBolas())
