@@ -7,8 +7,8 @@ xspeed2 = 5
 yspeed1 = 4
 yspeed2= 3
 choque_activo=False
-def GraficoBolas():
-    window= tk.Toplevel()
+def GraficoBolas(root):
+    window= tk.Toplevel(root)
     window.geometry("600x600")
     window.resizable(width=False, height=False)
     window.title("Bolas rebotando")
@@ -77,7 +77,3 @@ def GraficoBolas():
             Collision()
             choque_activo=True
     canva2.after(10, moveball)
-    window.mainloop()
-
-    #quitar al terminar
-print(GraficoBolas())
