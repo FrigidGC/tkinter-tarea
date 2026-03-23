@@ -77,3 +77,7 @@ def GraficoBolas(root):
             Collision()
             choque_activo=True
     canva2.after(10, moveball)
+#    window.mainloop()
+
+    #quitar al terminar
+#print(GraficoBolas())
