@@ -76,5 +76,5 @@ def GraficoBolas(root):
     moveball()
 
     # Botón para volver a la ventana principal
-    volver_btn = tk.Button(window, text="Volver", command=window.destroy)
+    volver_btn = tk.Button(window, text="Cerrar Ventana", command=window.destroy)
     volver_btn.pack(pady=10)
