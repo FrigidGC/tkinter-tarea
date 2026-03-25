@@ -39,7 +39,7 @@ def NumerosPares(root):
 
             resultado_label.config(text=texto)
         except ValueError:
-            resultado_label.config(text="Error: Ingrese un número entero válido")
+            resultado_label.config(text="Ingrese un entero positivo")
 
     # Ventana secundaria
     ventana = tk.Toplevel(root)
@@ -208,7 +208,7 @@ def GraficoBolas(root):
 
 #Ventana principal
 root = tk.Tk()
-root.title("tarea-taller-grafico")
+root.title("Tarea-taller-grafico")
 root.geometry("500x650")
 root.resizable(width=False, height=False)
 root.configure(bg="yellow")
