@@ -22,21 +22,24 @@ def NumerosPares(root):
 
         return encontrar_pares(n, a + 1, resultado)
 
-    # Boton que llama a la funcion anterior
+    # Funcion para el boton que llama a la funcion anterior
     def calcular():
-        n = int(entry.get())
+        try:
+            n = int(entry.get())
 
-        if n <= 0:
-            resultado_label.config(text="Ingrese un entero positivo") #Agrega el resultado en el label
-            return
+            if n <= 0:
+                resultado_label.config(text="Ingrese un entero positivo") #Agrega el resultado en el label
+                return
 
-        pares = encontrar_pares(n)
+            pares = encontrar_pares(n)
 
-        texto = "Pares:\n"
-        for a, b in pares:
-            texto += f"({a}, {b})\n"
+            texto = "Pares:\n"
+            for a, b in pares:
+                texto += f"({a}, {b})\n"
 
-        resultado_label.config(text=texto)
+            resultado_label.config(text=texto)
+        except ValueError:
+            resultado_label.config(text="Error: Ingrese un número entero válido")
 
     # Ventana secundaria
     ventana = tk.Toplevel(root)
@@ -106,22 +109,22 @@ def Ficha(root):
     ventanaf = tk.Toplevel(root)
     ventanaf.title("Ficha Personal")
     ventanaf.geometry("600x800")
-    ventanaf.configure(bg="#f0f0f0")
+    ventanaf.configure(bg="#87CEEB")
     ventanaf.resizable(False, False)
     tk.Label(ventanaf, text="Ficha Personal", font=("Arial", 20, "bold"), bg="#f0f0f0").pack(pady=20)
 
 # Canvas
-    Canvaf = tk.Canvas(ventanaf,bg="#87CEEB", width=600, height=60)
+    Canvaf = tk.Canvas(ventanaf,bg="#B6FFFB", width=600, height=600)
     Canvaf.pack()
-    imagenper = tk.PhotoImage(file="ConBdeVaca.png") 
+    imagenper = tk.PhotoImage(file="CasaProg.png") 
     imagenpermostrar = tk.Label(Canvaf, image=imagenper)
     imagenpermostrar.image = imagenper
     imagenpermostrar.pack(pady=0)
-    tk.Label(Canvaf, text="Nombre: Andrés Felipe Guerrero Cervantes", font=("Arial", 18, "bold"), bg="#87CEEB").pack(pady=15)
-    tk.Label(Canvaf, text="Carnet: 2026094459", font=("Arial", 18, "bold"), bg="#87CEEB").pack(pady=15)
-    tk.Label(Canvaf, text="Edad: 18 Años", font=("Arial", 18, "bold"), bg="#87CEEB").pack(pady=15)
-    tk.Label(Canvaf, text="Biografía: Estudiante de primer ingreso del Tecnologico de Costa Rica ", font=("Arial", 10, "bold"), bg="#87CEEB").pack(pady=10)
-    tk.Label(Canvaf, text="en la carrera de Computadores, tengo 18 años y vivo en Pérez Zeledón", font=("Arial", 10, "bold"), bg="#87CEEB").pack(pady=10)
+    tk.Label(Canvaf, text="Nombre: Andrés Felipe Guerrero Cervantes", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
+    tk.Label(Canvaf, text="Carnet: 2026094459", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
+    tk.Label(Canvaf, text="Edad: 18 Años", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
+    tk.Label(Canvaf, text="Biografía: Estudiante de primer ingreso del Tecnologico de Costa Rica ", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
+    tk.Label(Canvaf, text="en la carrera de Computadores, tengo 18 años y vivo en Pérez Zeledón", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
     tk.Button(Canvaf, text="Cerrar", command=ventanaf.destroy, bg="#f44336", fg="white", width=15).pack(pady=10)
 
 #Grafico
