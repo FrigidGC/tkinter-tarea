@@ -3,9 +3,16 @@ import pygame
 # Inicializar el mixer de pygame
 pygame.mixer.init()
 
+ventanas_abiertas = 0
 
 #Análisis de numeros
 def NumerosPares(root):
+    #Define si puede o no abri una ventana
+    global ventanas_abiertas
+
+    if ventanas_abiertas == 1:
+        return
+    ventanas_abiertas += 1
 
     # Encuentra los numeros validos para hacer pares y lo agrega a una lista
     def encontrar_pares(n, a=1, resultado=None):
@@ -53,13 +60,26 @@ def NumerosPares(root):
     entry.pack(pady=10)
 
     tk.Button(ventana, text="Calcular", command=calcular).pack(pady=10)
+    def cerrar():
+        global ventanas_abiertas
+        ventanas_abiertas -= 1
+        ventana.destroy()
+
+    ventana.protocol("WM_DELETE_WINDOW", cerrar)
 
     resultado_label = tk.Label(ventana, text="", font=("comic-sans", 12))
     resultado_label.pack(pady=20)
-    tk.Button(ventana, text="Cerrar", command=ventana.destroy, bg="#f44336", fg="white", width=15).pack(pady=10)
+    tk.Button(ventana, text="Cerrar", command=lambda:cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
 
 #Musica
 def Musica(root):
+    #Define si puede o no abri una ventana
+    global ventanas_abiertas
+
+    if ventanas_abiertas == 1:
+        return
+    ventanas_abiertas += 1
+
     #Control de música
     def play_music():
         pygame.mixer.music.play()
@@ -100,11 +120,22 @@ def Musica(root):
     def cerrar():
         pygame.mixer.music.stop()
         ventanap.destroy()
+        global ventanas_abiertas
+        ventanas_abiertas -= 1
+        ventanap.destroy()
+
     ventanap.protocol("WM_DELETE_WINDOW", cerrar)
     tk.Button(CMusic, text="Cerrar", command=lambda: cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
 
 #Ficha personal
 def Ficha(root):
+    #Define si puede o no abri una ventana
+    global ventanas_abiertas
+
+    if ventanas_abiertas == 1:
+        return
+    ventanas_abiertas += 1
+
 # Ventana
     ventanaf = tk.Toplevel(root)
     ventanaf.title("Ficha Personal")
@@ -125,10 +156,23 @@ def Ficha(root):
     tk.Label(Canvaf, text="Edad: 18 Años", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
     tk.Label(Canvaf, text="Biografía: Estudiante de primer ingreso del Tecnologico de Costa Rica ", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
     tk.Label(Canvaf, text="en la carrera de Computadores, tengo 18 años y vivo en Pérez Zeledón", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
-    tk.Button(Canvaf, text="Cerrar", command=ventanaf.destroy, bg="#f44336", fg="white", width=15).pack(pady=10)
+    def cerrar():
+        global ventanas_abiertas
+        ventanas_abiertas -= 1
+        ventanaf.destroy()
+
+    ventanaf.protocol("WM_DELETE_WINDOW", cerrar)
+    tk.Button(Canvaf, text="Cerrar", command=lambda:cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
 
 #Grafico
 def GraficoBolas(root):
+    #Define si puede o no abri una ventana
+    global ventanas_abiertas
+
+    if ventanas_abiertas == 1:
+        return
+    ventanas_abiertas += 1
+
     window = tk.Toplevel(root)
     window.geometry("600x800")
     window.resizable(False, False)
@@ -203,7 +247,13 @@ def GraficoBolas(root):
     moveball()
 
     # Botón para volver a la ventana principal
-    volver_btn = tk.Button(window, text="Cerrar Ventana", command=window.destroy, bg="#f44336", fg="white", width=15)
+    def cerrar():
+        global ventanas_abiertas
+        ventanas_abiertas -= 1
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", cerrar)
+    volver_btn = tk.Button(window, text="Cerrar Ventana", command=lambda:cerrar(), bg="#f44336", fg="white", width=15)
     volver_btn.pack(pady=10)
 
 #Ventana principal
