@@ -15,72 +15,85 @@ def NumerosPares(root):
     ventanas_abiertas += 1
 
     # Encuentra los numeros validos para hacer pares y lo agrega a una lista
-    def encontrar_pares(n, a=1, resultado=None):
+    def encontrar_pares(num, a=1, resultado=None):
         if resultado is None:
             resultado = []
 
-        if a > n:
+        if a > (num/2):
             return resultado
 
-        if n % a == 0:
-            b = n // a
+        if num % a == 0:
+            b = num // a
             if a <= b:
-                resultado.append((a, b))
+                resultado.append((a,",", b),)
+                resultado.append(",")
 
-        return encontrar_pares(n, a + 1, resultado)
-
+        return encontrar_pares(num, a + 1, resultado)
+#Al ser la funcion recursiva no acepta numeros mayores a 980, ya que choca con el limite de interacciones al revisar el numero
     # Funcion para el boton que llama a la funcion anterior
     def calcular():
         try:
-            n = int(entry.get())
-
-            if n <= 0:
-                resultado_label.config(text="Ingrese un entero positivo") #Agrega el resultado en el label
+            num = int(Entrada.get())
+            canvasnum.delete("all")
+            if num > 1991:
+                canvasnum.create_text(10, 10, text="Ingrese un numero menor a 1991", font=("Arial", 12), anchor="nw")
+                return
+            if num <= 0:
+                canvasnum.create_text(10, 10, text="Ingrese un entero positivo", anchor="nw")
                 return
 
-            pares = encontrar_pares(n)
+            pares = encontrar_pares(num)
 
-            texto = "Pares:\n"
-            for a, b in pares:
-                texto += f"({a}, {b})\n"
 
-            resultado_label.config(text=texto)
+        #Agrega el resultado en el canvas
+            canvasnum.create_text(10, 10, text=pares, font=("Arial", 12), anchor="nw", width=350)
+
+        #atrapar error    
         except ValueError:
-            resultado_label.config(text="Ingrese un entero positivo")
-
-    # Ventana secundaria
+            canvasnum.delete("all")
+            canvasnum.create_text(10, 10, text="Ingrese un número válido", anchor="nw")
+#Ventana
     ventana = tk.Toplevel(root)
     ventana.title("Pares (a x b = n)")
-    ventana.geometry("300x400")
+    ventana.geometry("400x470")
     ventana.resizable(False, False)
 
-    tk.Label(ventana, text="Ingrese un número:", font=("comic-sans", 12)).pack(pady=10)
-
-    entry = tk.Entry(ventana)
-    entry.pack(pady=10)
-
+    tk.Label(ventana, text="Ingrese un número:", font=("Arial", 16)).pack(pady=10)
+    tk.Label(ventana, text="Restricción:Recursividad, numero maximo: 1991", font=("Arial", 10)).pack(pady=10)
+#La caja de texto que recibe el numero
+    Entrada = tk.Entry(ventana)
+    Entrada.pack(pady=10)
+#canva
+    canvasnum = tk.Canvas(ventana, width=360, height=250, bg="white")
+    canvasnum.pack()
+#Boton para calcular
     tk.Button(ventana, text="Calcular", command=calcular).pack(pady=10)
+
     def cerrar():
         global ventanas_abiertas
         ventanas_abiertas -= 1
         ventana.destroy()
-
     ventana.protocol("WM_DELETE_WINDOW", cerrar)
+    tk.Button(ventana, text="Cerrar", command=lambda:cerrar(), bg="#f44336", fg="white", width=15).pack()
 
-    resultado_label = tk.Label(ventana, text="", font=("comic-sans", 12))
-    resultado_label.pack(pady=20)
-    tk.Button(ventana, text="Cerrar", command=lambda:cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
-
-#Musica
-def Musica(root):
-    #Define si puede o no abri una ventana
+#Ficha personal
+def Ficha(root):
+    #Define si puede o no abrir una ventana
     global ventanas_abiertas
 
     if ventanas_abiertas == 1:
         return
     ventanas_abiertas += 1
 
-    #Control de música
+# Ventana
+    ventanaf = tk.Toplevel(root)
+    ventanaf.title("Ficha Personal")
+    ventanaf.geometry("950x800")
+    ventanaf.configure(bg="#87CEEB")
+    ventanaf.resizable(False, False)
+    tk.Label(ventanaf, text="Ficha Personal", font=("Arial", 20, "bold"), bg="#f0f0f0").pack(pady=20)
+
+ #La variables de control de música
     def play_music():
         pygame.mixer.music.play()
 
@@ -96,77 +109,49 @@ def Musica(root):
     # Cargar música, Recortado con Blender btw
     pygame.mixer.music.load("who-can-it-be-now.mp3")
 
-    # Ventana
-    ventanap = tk.Toplevel(root)
-    ventanap.title("Ficha Personal")
-    ventanap.geometry("500x750")
-    ventanap.resizable(False, False)
-
-    #canvas
-    CMusic = tk.Canvas(ventanap, width=500, height=750)
-    CMusic.pack()
-
-    # Botones, label e imagen
-    imagen = tk.PhotoImage(file="Men_At_Work.png") 
-    imagenmostrar = tk.Label(CMusic, image=imagen)
-    imagenmostrar.image = imagen
-    imagenmostrar.pack(pady=10)
-
-    tk.Label(CMusic, text="Género musical: Pop Rock", font=("Arial", 16)).pack(pady=20)
-    tk.Button(CMusic, text="Play", width=10, command=play_music).pack(pady=10)
-    tk.Button(CMusic, text="Pause", width=10, command=pause_music).pack(pady=10)
-    tk.Button(CMusic, text="Unpause", width=10, command=unpause_music).pack(pady=10)
-    tk.Button(CMusic, text="Stop", width=10, command=stop_music).pack(pady=10)
-    def cerrar():
-        pygame.mixer.music.stop()
-        ventanap.destroy()
-        global ventanas_abiertas
-        ventanas_abiertas -= 1
-        ventanap.destroy()
-
-    ventanap.protocol("WM_DELETE_WINDOW", cerrar)
-    tk.Button(CMusic, text="Cerrar", command=lambda: cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
-
-#Ficha personal
-def Ficha(root):
-    #Define si puede o no abri una ventana
-    global ventanas_abiertas
-
-    if ventanas_abiertas == 1:
-        return
-    ventanas_abiertas += 1
-
-# Ventana
-    ventanaf = tk.Toplevel(root)
-    ventanaf.title("Ficha Personal")
-    ventanaf.geometry("600x800")
-    ventanaf.configure(bg="#87CEEB")
-    ventanaf.resizable(False, False)
-    tk.Label(ventanaf, text="Ficha Personal", font=("Arial", 20, "bold"), bg="#f0f0f0").pack(pady=20)
-
-# Canvas
+# Canvas Ficha
     Canvaf = tk.Canvas(ventanaf,bg="#B6FFFB", width=600, height=600)
     Canvaf.pack()
     imagenper = tk.PhotoImage(file="CasaProg.png") 
     imagenpermostrar = tk.Label(Canvaf, image=imagenper)
     imagenpermostrar.image = imagenper
-    imagenpermostrar.pack(pady=0)
+    imagenpermostrar.pack(pady=0, side="left")
     tk.Label(Canvaf, text="Nombre: Andrés Felipe Guerrero Cervantes", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
     tk.Label(Canvaf, text="Carnet: 2026094459", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
     tk.Label(Canvaf, text="Edad: 18 Años", font=("Arial", 18, "bold"), bg="#B6FFFB").pack(pady=15)
     tk.Label(Canvaf, text="Biografía: Estudiante de primer ingreso del Tecnologico de Costa Rica ", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
     tk.Label(Canvaf, text="en la carrera de Computadores, tengo 18 años y vivo en Pérez Zeledón", font=("Arial", 10, "bold"), bg="#B6FFFB").pack(pady=10)
+
+# Canvas Musica
+    CMusic = tk.Canvas(ventanaf, bg="yellow", width=500, height=750)
+    CMusic.pack(pady=10)
+
+    # Botones, label e imagen
+    imagenM = tk.PhotoImage(file="Men_At_Work.png") 
+    imagenmusic = tk.Label(CMusic, image=imagenM)
+    imagenmusic.image = imagenM
+    imagenmusic.pack(pady=10, padx=20, side="left")
+
+    tk.Label(CMusic, text="Género musical: Pop Rock", font=("Arial", 16)).pack(pady=20, padx=20)
+    tk.Button(CMusic, text="Play", width=10, command=play_music).pack(pady=10, padx=20)
+    tk.Button(CMusic, text="Pause", width=10, command=pause_music).pack(pady=10, padx=20)
+    tk.Button(CMusic, text="Unpause", width=10, command=unpause_music).pack(pady=10, padx=20)
+    tk.Button(CMusic, text="Stop", width=10, command=stop_music).pack(pady=10, padx=20)
+
+
+#Cierra la musica al cerrar ventana
     def cerrar():
         global ventanas_abiertas
         ventanas_abiertas -= 1
         ventanaf.destroy()
+        pygame.mixer.music.stop()
 
     ventanaf.protocol("WM_DELETE_WINDOW", cerrar)
     tk.Button(Canvaf, text="Cerrar", command=lambda:cerrar(), bg="#f44336", fg="white", width=15).pack(pady=10)
 
 #Grafico
 def GraficoBolas(root):
-    #Define si puede o no abri una ventana
+#Define si puede o no abrir una ventana
     global ventanas_abiertas
 
     if ventanas_abiertas == 1:
@@ -273,15 +258,12 @@ imagenpmostrar.image = imagenp
 imagenpmostrar.pack(pady=0)
 
 ButtonBall = tk.Button(root, text="Bolas rebotando", command=lambda:GraficoBolas(root))
-ButtonBall.pack(pady=10)
+ButtonBall.pack(pady=15)
 
 ButtonPers = tk.Button(root, text="Ficha Personal", command=lambda:Ficha(root))
-ButtonPers.pack(pady=10)
-
-ButtonPers = tk.Button(root, text="Musica", command=lambda:Musica(root))
-ButtonPers.pack(pady=10)
+ButtonPers.pack(pady=15)
 
 ButtonNum = tk.Button(root, text="Análisis de numeros", command=lambda:NumerosPares(root))
-ButtonNum.pack(pady=10)
+ButtonNum.pack(pady=15)
 
 root.mainloop()
